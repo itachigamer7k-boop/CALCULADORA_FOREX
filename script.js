@@ -27,38 +27,78 @@ desenhar()
 let linhas=[]
 let dragging=null
 
-canvas.addEventListener("mousedown",e=>{
 
-let y=e.offsetY
+/* pegar posição mouse ou dedo */
+
+function getY(e){
+
+if(e.touches){
+return e.touches[0].clientY - canvas.getBoundingClientRect().top
+}
+
+return e.offsetY
+
+}
+
+
+/* iniciar drag */
+
+function iniciarDrag(e){
+
+let y = getY(e)
 
 for(let l of linhas){
 
-if(Math.abs(y-l.y)<6 && l.drag){
-
-dragging=l
-
+if(Math.abs(y-l.y) < 15 && l.drag){
+dragging = l
 }
 
 }
 
-})
+}
 
-canvas.addEventListener("mouseup",()=>dragging=null)
 
-canvas.addEventListener("mousemove",e=>{
+/* mover linha */
+
+function moverLinha(e){
 
 if(!dragging) return
+
+let y = getY(e)
 
 let min=dragging.min
 let max=dragging.max
 
-let preco=max-((e.offsetY/canvas.height)*(max-min))
+let preco=max-((y/canvas.height)*(max-min))
 
 dragging.preco=preco
 
 recalcular()
 
-})
+}
+
+
+/* parar drag */
+
+function pararDrag(){
+dragging=null
+}
+
+
+/* eventos pc */
+
+canvas.addEventListener("mousedown", iniciarDrag)
+canvas.addEventListener("mousemove", moverLinha)
+canvas.addEventListener("mouseup", pararDrag)
+
+
+/* eventos mobile */
+
+canvas.addEventListener("touchstart", iniciarDrag)
+canvas.addEventListener("touchmove", moverLinha)
+canvas.addEventListener("touchend", pararDrag)
+
+
 
 function calcular(){
 
@@ -150,6 +190,8 @@ desenhar()
 
 }
 
+
+
 function recalcular(){
 
 let entrada=linhas[0].preco
@@ -182,6 +224,8 @@ desenhar()
 
 }
 
+
+
 function desenhar(){
 
 ctx.clearRect(0,0,canvas.width,canvas.height)
@@ -200,17 +244,21 @@ let escala=canvas.height/(max-min)
 
 let step=(max-min)/10
 
+
+/* escala preço */
+
 for(let p=min;p<=max;p+=step){
 
 let y=canvas.height-((p-min)*escala)
 
 ctx.fillStyle="#94a3b8"
-
 ctx.textAlign="right"
-
 ctx.fillText(p.toFixed(5),canvas.width-10,y)
 
 }
+
+
+/* linhas */
 
 for(let l of linhas){
 
@@ -231,7 +279,6 @@ ctx.stroke()
 ctx.fillStyle=l.cor
 
 ctx.textAlign="left"
-
 ctx.fillText(l.nome+" ("+l.info+")",10,y-5)
 
 let direita=""
@@ -247,7 +294,6 @@ direita=l.preco.toFixed(5)
 }
 
 ctx.textAlign="right"
-
 ctx.fillText(direita,canvas.width-80,y-5)
 
 }
