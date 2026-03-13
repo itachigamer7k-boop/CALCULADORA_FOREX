@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<title>Forex OCO Tool</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="painel">
+
+<h2>Calculadora Forex</h2>
+
+<label>Par</label>
+
+<select id="par">
+
+<option value="EURUSD">EUR/USD</option>
+<option value="GBPUSD">GBP/USD</option>
+<option value="USDJPY">USD/JPY</option>
+<option value="AUDUSD">AUD/USD</option>
+<option value="USDCAD">USD/CAD</option>
+<option value="USDCHF">USD/CHF</option>
+<option value="NZDUSD">NZD/USD</option>
+
+</select>
+
+<label>Tipo</label>
+
+<select id="tipo">
+<option value="compra">Compra</option>
+<option value="venda">Venda</option>
+</select>
+
+<label>Entrada</label>
+<input type="number" step="0.00001" id="entrada" value="1.08000">
+
+<label>Stop</label>
+<input type="number" step="0.00001" id="stop" value="1.07800">
+
+<label>Lote</label>
+<input type="number" step="0.01" id="lote" value="0.10">
+
+<label>Risco Retorno</label>
+
+<select id="rr">
+<option value="1">1:1</option>
+<option value="2">2:1</option>
+<option value="3">3:1</option>
+</select>
+
+<label>Parciais</label>
+
+<select id="parciais">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+
+<button onclick="calcular()">Calcular</button>
+
+<hr>
+
+<h3>Resultado</h3>
+
+<p>Take Profit: <span id="resultadoTP"></span></p>
+<p>Stop: <span id="resultadoStop"></span></p>
+
+</div>
+
+<canvas id="grafico"></canvas>
+
+<script src="script.js"></script>
+
+</body>
+</html>
