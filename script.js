@@ -1,8 +1,25 @@
 const canvas = document.getElementById("grafico")
 const ctx = canvas.getContext("2d")
 
+function ajustarCanvas(){
+
+if(window.innerWidth < 768){
+
+canvas.width = window.innerWidth
+canvas.height = 500
+
+}else{
+
 canvas.width = window.innerWidth - 260
 canvas.height = window.innerHeight
+
+}
+
+}
+
+ajustarCanvas()
+
+window.addEventListener("resize", ajustarCanvas)
 
 let linhas=[]
 let dragging=null
@@ -233,5 +250,6 @@ ctx.fillText(direita,canvas.width-80,y-5)
 }
 
 }
+
 
 calcular()
